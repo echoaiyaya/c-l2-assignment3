@@ -1,0 +1,10 @@
+E:\codePlay\c#\20210620ass3\FileIOAssignment3\bin\Debug\FileIOAssignment3.exe.config
+E:\codePlay\c#\20210620ass3\FileIOAssignment3\bin\Debug\FileIOAssignment3.exe
+E:\codePlay\c#\20210620ass3\FileIOAssignment3\bin\Debug\FileIOAssignment3.pdb
+E:\codePlay\c#\20210620ass3\FileIOAssignment3\obj\Debug\FileIOAssignment3.csprojAssemblyReference.cache
+E:\codePlay\c#\20210620ass3\FileIOAssignment3\obj\Debug\FileIOAssignment3.Form1.resources
+E:\codePlay\c#\20210620ass3\FileIOAssignment3\obj\Debug\FileIOAssignment3.Properties.Resources.resources
+E:\codePlay\c#\20210620ass3\FileIOAssignment3\obj\Debug\FileIOAssignment3.csproj.GenerateResource.cache
+E:\codePlay\c#\20210620ass3\FileIOAssignment3\obj\Debug\FileIOAssignment3.csproj.CoreCompileInputs.cache
+E:\codePlay\c#\20210620ass3\FileIOAssignment3\obj\Debug\FileIOAssignment3.exe
+E:\codePlay\c#\20210620ass3\FileIOAssignment3\obj\Debug\FileIOAssignment3.pdb
