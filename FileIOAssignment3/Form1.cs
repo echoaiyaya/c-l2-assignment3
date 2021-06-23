@@ -239,7 +239,7 @@ namespace FileIOAssignment3
                         string record = reader.ReadLine();
                         if (record != "")
                         {
-                            string[] fields = record.Split('\t');
+                            string[] fields = record.Split(';');
                             int index = dataGridViewXX.Rows.Add();
                             dataGridViewXX.Rows[index].Cells[0].Value = fields[0].ToUpper();
                             dataGridViewXX.Rows[index].Cells[1].Value = firstUpper.ToTitleCase(fields[1]);
@@ -455,7 +455,7 @@ namespace FileIOAssignment3
                 decimal aoDecimal = Convert.ToDecimal(tp) - Convert.ToDecimal(tcoac);
                 ao = Math.Round(aoDecimal, 2).ToString();
             }
-            return $"{mid}\t{fname}\t{lname}\t{dr}\t{noc}\t{tcpc}\t{tcoac}\t{tp}\t{ao}";
+            return $"{mid};{fname};{lname};{dr};{noc};{tcpc};{tcoac};{tp};{ao}";
         }
 
         private int returnIndexOfMemberId(string enterMid)
@@ -490,7 +490,7 @@ namespace FileIOAssignment3
                 while(!reader.EndOfStream)
                 {
                     string record = reader.ReadLine();
-                    string[] records = record.Split('\t');
+                    string[] records = record.Split(';');
                     if (enterMId == records[0])
                     {
                         hasId = true;
