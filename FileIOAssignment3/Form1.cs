@@ -40,6 +40,7 @@ namespace FileIOAssignment3
 
         private void btnCFExistsXX_Click(object sender, EventArgs e)
         {
+            lblError.Text = "";
             string filePath = txtFilePathXX.Text;
             if (string.IsNullOrWhiteSpace(filePath))
             {
@@ -160,6 +161,7 @@ namespace FileIOAssignment3
 
         private void btnDeleteXX_Click(object sender, EventArgs e)
         {
+            lblError.Text = "";
             string merberId = txtMIDXX.Text;
             int index = returnIndexOfMemberId(merberId);
             List<string> records = new List<string> { };
@@ -189,18 +191,20 @@ namespace FileIOAssignment3
 
         private void btnEmptyFileXX_Click(object sender, EventArgs e)
         {
+            lblError.Text = "";
             try
             {
                 using (FileStream fileOpen = new FileStream(globalFilePath, FileMode.Truncate)) { }
                 showData();
             } catch(Exception ex)
             {
-
+                lblError.Text = ex.Message;
             }
         }
 
         private void btnReloadXX_Click(object sender, EventArgs e)
         {
+            lblError.Text = "";
             showData();
         }
 
@@ -269,38 +273,74 @@ namespace FileIOAssignment3
             string tcoaClasses = txtTCOAClassesXX.Text;
             string aOutstanding = txtAOustandingXX.Text;
             string error = "";
+            bool isFocus = true;
 
             Regex memberIdPattern = new Regex(@"^[\da-zA-Z]+$");
             if (string.IsNullOrWhiteSpace(merberId))
             {
                 error += "member Id is required!\n";
+                if (isFocus)
+                {
+                    txtMIDXX.Focus();
+                    isFocus = false;
+                }
             } else if (!memberIdPattern.IsMatch(merberId))
             {
                 error += "member Id must contain only letters and numbers\n";
+                if (isFocus)
+                {
+                    txtMIDXX.Focus();
+                    isFocus = false;
+                }
             }
 
             Regex namePattern = new Regex(@"^(?!.*\d)[a-zA-Z]{2,}$");
             if (string.IsNullOrWhiteSpace(firstName))
             {
                 error += "first name is required!\n";
+                if (isFocus)
+                {
+                    txtFNameXX.Focus();
+                    isFocus = false;
+                }
             } else if (!namePattern.IsMatch(firstName))
             {
                 error += "first name must be more than 2 characters and must not contain numbers\n";
+                if (isFocus)
+                {
+                    txtFNameXX.Focus();
+                    isFocus = false;
+                }
             }
 
             if (string.IsNullOrWhiteSpace(lastName))
             {
                 error += "last name is required!\n";
+                if (isFocus)
+                {
+                    txtLNameXX.Focus();
+                    isFocus = false;
+                }
             }
             else if (!namePattern.IsMatch(lastName))
             {
                 error += "last name must be more than 2 characters and must not contain numbers\n";
+                if (isFocus)
+                {
+                    txtLNameXX.Focus();
+                    isFocus = false;
+                }
             }
 
             DateTime current = DateTime.Now;
             if (current < dateRegistered)
             {
                 error += "date registered must not be in the future\n";
+                if (isFocus)
+                {
+                    dPickerXX.Focus();
+                    isFocus = false;
+                }
             }
 
             try
@@ -309,10 +349,20 @@ namespace FileIOAssignment3
                 if (numberOfClassesInt < 1)
                 {
                     error += "number of classes must be greater than or equal to 1";
+                    if (isFocus)
+                    {
+                        txtNOClassesXX.Focus();
+                        isFocus = false;
+                    }
                 }
             } catch
             {
                 error += "number of classes is invalid\n";
+                if (isFocus)
+                {
+                    txtNOClassesXX.Focus();
+                    isFocus = false;
+                }
             }
 
             try
@@ -321,17 +371,32 @@ namespace FileIOAssignment3
                 if (totalCPCDecimal < 1)
                 {
                     error += "total cost per class must be greater than or equal to 1";
+                    if (isFocus)
+                    {
+                        txtTCPClassXX.Focus();
+                        isFocus = false;
+                    }
                 }
             }
             catch
             {
                 error += "total cost per class is invalid\n";
+                if (isFocus)
+                {
+                    txtTCPClassXX.Focus();
+                    isFocus = false;
+                }
             }
 
             Regex checkIsNumber = new Regex(@"^\d+$");
             if (!checkIsNumber.IsMatch(tPaid))
             {
                 error += "total paid must be a number\n";
+                if (isFocus)
+                {
+                    txtTPaidXX.Focus();
+                    isFocus = false;
+                }
             }
 
             if (!string.IsNullOrEmpty(tcoaClasses))
@@ -339,6 +404,11 @@ namespace FileIOAssignment3
                 if (!checkIsNumber.IsMatch(tcoaClasses))
                 {
                     error += "total cost of all classes must be a number\n";
+                    if (isFocus)
+                    {
+                        txtTCOAClassesXX.Focus();
+                        isFocus = false;
+                    }
                 }
             }
 
@@ -347,6 +417,11 @@ namespace FileIOAssignment3
                 if (!checkIsNumber.IsMatch(aOutstanding))
                 {
                     error += "amount outstanding must be a number\n";
+                    if (isFocus)
+                    {
+                        txtAOustandingXX.Focus();
+                        isFocus = false;
+                    }
                 }
             }
 
@@ -370,7 +445,17 @@ namespace FileIOAssignment3
 
         private string createRecord(string mid, string fname, string lname, string dr, string noc, string tcpc, string tp, string tcoac, string ao) 
         {
-            return $"{mid}\t{fname}\t{lname}\t{dr}\t{noc}\t{tcpc}\t{tp}\t{tcoac}\t{ao}";
+            if (string.IsNullOrEmpty(tcoac))
+            {
+                decimal tcoacDecimal = Convert.ToDecimal(noc) * Convert.ToDecimal(tcpc);
+                tcoac = Math.Round(tcoacDecimal, 2).ToString();
+            }
+            if (string.IsNullOrEmpty(ao))
+            {
+                decimal aoDecimal = Convert.ToDecimal(tp) - Convert.ToDecimal(tcoac);
+                ao = Math.Round(aoDecimal, 2).ToString();
+            }
+            return $"{mid}\t{fname}\t{lname}\t{dr}\t{noc}\t{tcpc}\t{tcoac}\t{tp}\t{ao}";
         }
 
         private int returnIndexOfMemberId(string enterMid)
@@ -415,7 +500,5 @@ namespace FileIOAssignment3
             }
             return hasId;
         }
-
-
     }
 }
